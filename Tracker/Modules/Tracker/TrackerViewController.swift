@@ -46,6 +46,10 @@ final class TrackerViewController : UIViewController {
         return label
     }()
     
+    
+    var categories: [TrackerCategory] = []
+    var completedTrackers: [TrackerRecord] = []
+    
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
