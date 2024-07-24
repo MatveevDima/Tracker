@@ -9,6 +9,13 @@ import UIKit
 
 final class TrackerViewController : UIViewController {
     
+    private let widthParameters = CollectionParameters(
+        cellsNumber: 2,
+        leftInset: 16,
+        rightInset: 16,
+        interCellSpacing: 10
+    )
+    
     private lazy var addButton: UIBarButtonItem = {
         let buttonImage = UIImage(systemName: "plus")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let addButton = UIBarButtonItem(
@@ -46,6 +53,20 @@ final class TrackerViewController : UIViewController {
         return label
     }()
     
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
+        collectionView.backgroundColor = .clear
+        collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(
+            TrackerCollectionViewHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TrackerCollectionViewHeader.identifier
+        )
+        return collectionView
+    }()
     
     var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
@@ -60,7 +81,8 @@ final class TrackerViewController : UIViewController {
     private func setupView() {
         setupSuperview()
         setupNavBar()
-        setupPlaceholder()
+        setupCollectionView()
+        //setupPlaceholder()
     }
     
     private func setupSuperview() {
@@ -106,6 +128,20 @@ final class TrackerViewController : UIViewController {
         ])
     }
     
+    private func setupCollectionView() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
     // MARK: Actions
     @objc
     private func didTapAddButton() {
@@ -114,6 +150,70 @@ final class TrackerViewController : UIViewController {
     
     @objc
     private func didChangeSelectedDate() {
+        collectionView.reloadData()
+    }
+}
+    // MARK: UICollectionViewDataSource
+extension TrackerViewController : UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TrackerCollectionViewCell
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let trackerHeader = collectionView
+            .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TrackerCollectionViewHeader.identifier, for: indexPath) as? TrackerCollectionViewHeader
+        else {
+            preconditionFailure("Failed to cast UICollectionReusableView as TrackerCollectionViewHeader")
+        }
+        trackerHeader.configure(model: TrackerCategory(header: "Хидер", trackers: []))
+        return trackerHeader
+    }
+}
+
+    // MARK: UICollectionViewDelegate
+extension TrackerViewController : UICollectionViewDelegate {
+
+
+}
+    // MARK: UICollectionViewDelegateFlowLayout
+extension TrackerViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let availableWidth = collectionView.bounds.width - widthParameters.widthInsets
+        let cellWidth = availableWidth / CGFloat(widthParameters.cellsNumber)
+        return CGSize(width: cellWidth, height: 148)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 16
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 12, left: widthParameters.leftInset, bottom: 8, right: widthParameters.rightInset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+        let targetSize = CGSize(width: collectionView.bounds.width, height: 42)
+        
+        return headerView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .required)
     }
 }
