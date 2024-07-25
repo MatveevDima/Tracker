@@ -145,7 +145,9 @@ final class TrackerViewController : UIViewController {
     // MARK: Actions
     @objc
     private func didTapAddButton() {
-        
+        let viewController = CreateNewTrackerViewController()
+        viewController.trackerViewController = self
+        present(viewController, animated: true)
     }
     
     @objc
@@ -215,5 +217,13 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         let targetSize = CGSize(width: collectionView.bounds.width, height: 42)
         
         return headerView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .required)
+    }
+}
+    // MARK: TrackerViewControllerProtocol
+extension TrackerViewController : TrackerViewControllerProtocol {
+ 
+    
+    func didCreateNewTracker() {
+        // todo
     }
 }
