@@ -132,6 +132,11 @@ extension CreateNewTrackerViewController: TrackerViewControllerDelegate {
     // MARK: CreateNewTrackerProtocol
 extension CreateNewTrackerViewController: CreateNewTrackerProtocol {
     
+    func didCancelCreatingNewHabit() {
+        self.didCreateNewTracker()
+    }
+    
+    
     func didCreateNewHabit() {
         self.didCreateNewTracker()
     }

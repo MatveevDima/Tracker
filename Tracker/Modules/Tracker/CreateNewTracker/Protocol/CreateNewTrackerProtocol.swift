@@ -10,4 +10,6 @@ import UIKit
 protocol CreateNewTrackerProtocol : AnyObject{
     
     func didCreateNewHabit()
+    
+    func didCancelCreatingNewHabit()
 }
