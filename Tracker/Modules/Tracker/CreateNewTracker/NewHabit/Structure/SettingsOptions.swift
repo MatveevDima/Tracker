@@ -11,5 +11,5 @@ struct SettingsOptions {
     
     let name: String
     var pickedParameter: String?
-    let complete: () -> Void
+    let handler: () -> Void
 }

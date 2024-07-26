@@ -250,11 +250,11 @@ final class CreateNewHabitViewController : UIViewController {
             SettingsOptions(
                 name: "Категория",
                 pickedParameter: nil,// isEdit ? pickedCategory?.name : nil,
-                complete: { [weak self] in
+                handler: { [weak self] in
                     guard let self = self else {
                         return
                     }
-                   // self.setCategory()
+                    self.setCategory()
                 }
             ))
      //   if isHabit {
@@ -262,17 +262,27 @@ final class CreateNewHabitViewController : UIViewController {
                 SettingsOptions(
                     name: "Расписание",
                     pickedParameter: nil,
-                    complete: { [weak self] in
+                    handler: { [weak self] in
                         guard let self = self else {
                             return
                         }
-                      //  self.setSchedule()
+                        self.setSchedule()
                     }
                 ))
 //            if isEdit {
 //                didConfigure(schedule: (tracker?.schedule!.schedule)!)
 //            }
    //     }
+        
+    }
+    
+    private func setCategory() {
+        let categoryViewController = CategoryViewController()
+        categoryViewController.delegate = self
+        present(categoryViewController, animated: true)
+    }
+    
+    private func setSchedule() {
         
     }
 }
@@ -297,11 +307,20 @@ extension CreateNewHabitViewController: UITableViewDataSource {
     // MARK: UITableViewDelegate
 extension CreateNewHabitViewController: UITableViewDelegate {
   
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        settings[indexPath.row].handler()
+    }
 }
 
     // MARK: CreateNewTrackerDelegate
 extension CreateNewHabitViewController: CreateNewTrackerDelegate {
+  
+    
+}
+    // MARK: CreateNewHabitProtocol
+extension CreateNewHabitViewController: CreateNewHabitProtocol {
   
     
 }
