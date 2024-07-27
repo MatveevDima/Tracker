@@ -1,38 +1,23 @@
 //
-//  CategoryViewController.swift
+//  CreateCategoryViewController.swift
 //  Tracker
 //
-//  Created by Дмитрий Матвеев on 26.07.2024.
+//  Created by Дмитрий Матвеев on 27.07.2024.
 //
 
 import UIKit
 
-final class CategoryViewController : UIViewController {
+final class CreateCategoryViewController : UIViewController {
     
-    weak var delegate: CreateNewHabitProtocol?
-    
-    private var categories: [TrackerCategory] = [] //todo
+    weak var delegate: CategoryViewControllerProtocol?
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Категория"
+        headerLabel.text = "Новая категория"
         headerLabel.font = .systemFont(ofSize: 16, weight: .medium)
         headerLabel.textColor = .black
         return headerLabel
-    }()
-    
-    private lazy var placeholderPic = UIImageView(image: UIImage(named: "tracker_placeholder"))
-    
-    private lazy var placeholderText: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Привычки и события \n можно объединить по смыслу"
-        label.textAlignment = .center
-        label.textColor = UIColor(named: "Black")
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.numberOfLines = 2
-        return label
     }()
     
     private lazy var addCategoryButton: UIButton = {
@@ -40,14 +25,38 @@ final class CategoryViewController : UIViewController {
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.backgroundColor = .black
         addCategoryButton.setTitleColor(.white, for: .normal)
-        addCategoryButton.setTitle("Добавить категорию", for: .normal)
+        addCategoryButton.setTitle("Готово", for: .normal)
         addCategoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.layer.masksToBounds = true
+        addCategoryButton.isEnabled = false
         
         addCategoryButton.addTarget(self, action: #selector(didTapAddCategoryButton), for: .touchUpInside)
         
         return addCategoryButton
+    }()
+    
+    private lazy var textField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Введите название категории"
+        textField.font = .systemFont(ofSize: 17, weight: .medium)
+        textField.textColor = .black
+        textField.backgroundColor =  UIColor(named: "light_gray_for_background")
+        textField.layer.masksToBounds = true
+        textField.layer.cornerRadius = 16
+        
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
+        
+        textField.leftViewMode = .always
+        textField.addTarget(self, action: #selector(didChangeTitleTextField), for: .allEditingEvents)
+        textField.clearButtonMode = .whileEditing
+        
+        NSLayoutConstraint.activate([
+            textField.heightAnchor.constraint(equalToConstant: 75)
+        ])
+        
+        return textField
     }()
     
     override func viewDidLoad() {
@@ -55,13 +64,6 @@ final class CategoryViewController : UIViewController {
         setupView()
     }
     
-    // MARK: Actions
-    @objc
-    private func didTapAddCategoryButton() {
-        let viewController = CreateCategoryViewController()
-        viewController.delegate = self
-        present(viewController, animated: true)
-    }
     
     // MARK: setupView
     private func setupView() {
@@ -69,7 +71,7 @@ final class CategoryViewController : UIViewController {
         view.backgroundColor = .white
         
         setupHeaderLabel()
-        setupPlaceholder()
+        setupTextField()
         setupAddCategoryButton()
     }
     
@@ -83,25 +85,14 @@ final class CategoryViewController : UIViewController {
         ])
     }
     
-    private func setupPlaceholder() {
+    func setupTextField() {
         
-        view.addSubview(placeholderPic)
-        view.addSubview(placeholderText)
-        
-        placeholderPic.translatesAutoresizingMaskIntoConstraints = false
-        placeholderText.translatesAutoresizingMaskIntoConstraints = false
-        
-        if (!categories.isEmpty) {
-            
-            placeholderPic.isHidden = true
-            placeholderText.isHidden = true
-        }
+        view.addSubview(textField)
         
         NSLayoutConstraint.activate([
-            placeholderPic.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            placeholderPic.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
-            placeholderText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            placeholderText.topAnchor.constraint(equalTo: placeholderPic.bottomAnchor, constant: 8)
+            textField.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 24),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
         ])
     }
     
@@ -117,14 +108,27 @@ final class CategoryViewController : UIViewController {
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
         ])
     }
-}
-
-    // MARK: CreateNewHabitDelegate
-extension CategoryViewController: CreateNewHabitDelegate {
     
+    // MARK: Actions
+    @objc
+    private func didTapAddCategoryButton() {
+        
+        
+    }
+    
+    @objc
+    private func didChangeTitleTextField() {
+        
+        let text = textField.text ?? ""
+        
+        if (text.isEmpty) {
+            addCategoryButton.isEnabled = false
+        } else {
+            addCategoryButton.isEnabled = true
+        }
+    }
 }
 
-    // MARK: CategoryViewControllerProtocol
-extension CategoryViewController: CategoryViewControllerProtocol {
+extension CreateCategoryViewController : CategoryDelegate {
     
 }
