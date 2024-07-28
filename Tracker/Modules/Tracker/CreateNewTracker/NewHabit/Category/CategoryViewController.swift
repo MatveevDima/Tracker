@@ -15,7 +15,7 @@ final class CategoryViewController : UIViewController {
     
     private var categories: [TrackerCategory] = []
     
-    private var pickedCategoryName: String?
+    private var pickedCategory: TrackerCategory?
     private var pickedCategoryIndex: Int?
     
     private lazy var headerLabel: UILabel = {
@@ -197,7 +197,7 @@ final class CategoryViewController : UIViewController {
     }
 }
 
-// MARK: UITableViewDataSource
+    // MARK: UITableViewDataSource
 extension CategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -222,7 +222,7 @@ extension CategoryViewController: UITableViewDataSource {
     }
 }
 
-// MARK: UITableViewDelegate
+    // MARK: UITableViewDelegate
 extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -241,9 +241,9 @@ extension CategoryViewController: UITableViewDelegate {
             // Если текущая ячейка была выбрана повторно, снимаем выбор
             if previousIndex == indexPath.row {
                 pickedCategoryIndex = nil
-                pickedCategoryName = nil
+                pickedCategory = nil
                 tableView.reloadRows(at: [previousIndexPath], with: .automatic)
-                delegate?.setPickedCategoy(pickedCategoryName)
+                delegate?.setPickedCategoy(nil)
                 return
             }
         }
@@ -253,13 +253,12 @@ extension CategoryViewController: UITableViewDelegate {
             currentCell.showImage()
         }
         
-        let pickedCategory = categories[indexPath.row]
-        pickedCategoryName = pickedCategory.name
+        pickedCategory = categories[indexPath.row]
         pickedCategoryIndex = indexPath.row
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
         
-        delegate?.setPickedCategoy(pickedCategoryName)
+        delegate?.setPickedCategoy(pickedCategory)
         dismiss(animated: true, completion: nil)
     }
 }

@@ -10,8 +10,10 @@ import UIKit
 final class CreateNewHabitViewController : UIViewController {
     
     weak var delegate: CreateNewTrackerProtocol? 
+    private let categoryService = CategoryService.shared
     
-    private var pickedCategoy: String?
+    private var pickedCategory: TrackerCategory?
+    private var pickedSchedule: Set<WeekDay>?
     
     private var settings: [SettingsOptions] = []
     
@@ -119,14 +121,17 @@ final class CreateNewHabitViewController : UIViewController {
     }()
     
     private lazy var createButton: UIButton = {
-        let cancelButton = UIButton(type: .custom)
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Создать", for: .normal)
-        cancelButton.setTitleColor(.white, for: .normal)
-        cancelButton.backgroundColor = .lightGray
-        cancelButton.layer.cornerRadius = 16
-        cancelButton.layer.masksToBounds = true
-        return cancelButton
+        let createButton = UIButton(type: .custom)
+        createButton.translatesAutoresizingMaskIntoConstraints = false
+        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitleColor(.white, for: .normal)
+        createButton.backgroundColor = .lightGray
+        createButton.layer.cornerRadius = 16
+        createButton.layer.masksToBounds = true
+        
+        createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
+        
+        return createButton
     }()
     
     override func viewDidLoad() {
@@ -145,11 +150,45 @@ final class CreateNewHabitViewController : UIViewController {
             textFieldErrorMessageContainer.isHidden = true
       
         }
+        checkForActivateCreateButton()
     }
     
     @objc private func didTapCancelButton() {
         dismiss(animated: true)
         delegate?.didCancelCreatingNewHabit()
+    }
+    
+    @objc private func didTapCreateButton() {
+        guard 
+            let trackerName = textField.text,
+            let pickedCategory = pickedCategory,
+            let pickedSchedule = pickedSchedule
+        else { return }
+        
+        dismiss(animated: true)
+        
+        let newHabit = Tracker(
+            id: UUID(),
+            name: trackerName,
+            color: (UIColor(named: "light_green") ?? .green).cgColor,
+            emoji: "😊",
+            schedule: pickedSchedule
+        )
+        
+        categoryService.addTrackerToCategory(newHabit, categoryName: pickedCategory.name)
+        delegate?.didCreateNewHabit()
+    }
+    
+    // MARK: Methods
+    private func checkForActivateCreateButton() {
+        if (
+            !(textField.text ?? "").isEmpty
+            && pickedCategory != nil
+        ) {
+            createButton.isEnabled = true
+        } else {
+            createButton.isEnabled = false
+        }
     }
     
     // MARK: Setup
@@ -285,7 +324,9 @@ final class CreateNewHabitViewController : UIViewController {
     }
     
     private func setSchedule() {
-        
+        let scheduleViewController = ScheduleViewController()
+        scheduleViewController.delegate = self
+        present(scheduleViewController, animated: true)
     }
 }
 
@@ -324,9 +365,18 @@ extension CreateNewHabitViewController: CreateNewTrackerDelegate {
     // MARK: CreateNewHabitProtocol
 extension CreateNewHabitViewController: CreateNewHabitProtocol {
     
-    func setPickedCategoy(_ category: String?) {
-        self.pickedCategoy = category
-        settings[0].pickedParameter = category
+    func setPickedSchedule(_ weekDays: Set<WeekDay>) {
+        self.pickedSchedule = weekDays
+        settings[1].pickedParameter = weekDays.map({e in e.shortName}).joined(separator: ", ")
         settingsTable.reloadData()
+        checkForActivateCreateButton()
+    }
+    
+    
+    func setPickedCategoy(_ category: TrackerCategory?) {
+        self.pickedCategory = category
+        settings[0].pickedParameter = category?.name
+        settingsTable.reloadData()
+        checkForActivateCreateButton()
     }
 }

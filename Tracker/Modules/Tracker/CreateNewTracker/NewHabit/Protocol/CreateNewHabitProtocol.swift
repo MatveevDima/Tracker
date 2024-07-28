@@ -9,5 +9,7 @@ import Foundation
 
 protocol CreateNewHabitProtocol : AnyObject {
     
-    func setPickedCategoy(_ category: String?)
+    func setPickedCategoy(_ category: TrackerCategory?)
+    
+    func setPickedSchedule(_ weekDays: Set<WeekDay>)
 }

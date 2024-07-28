@@ -82,7 +82,8 @@ final class TrackerViewController : UIViewController {
         setupSuperview()
         setupNavBar()
         setupCollectionView()
-        //setupPlaceholder()
+        setupPlaceholder()
+        updateView()
     }
     
     private func setupSuperview() {
@@ -126,6 +127,9 @@ final class TrackerViewController : UIViewController {
             placeholderText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeholderText.topAnchor.constraint(equalTo: placeholderPic.bottomAnchor, constant: 8)
         ])
+        
+        placeholderPic.isHidden = true
+        placeholderText.isHidden = true
     }
     
     private func setupCollectionView() {
@@ -137,7 +141,7 @@ final class TrackerViewController : UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
-
+        
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -154,12 +158,29 @@ final class TrackerViewController : UIViewController {
     private func didChangeSelectedDate() {
         collectionView.reloadData()
     }
+    
+    private func updateView() {
+        if categories.isEmpty {
+            placeholderPic.isHidden = false
+            placeholderText.isHidden = false
+            collectionView.isHidden = true
+        } else {
+            placeholderPic.isHidden = true
+            placeholderText.isHidden = true
+            collectionView.isHidden = false
+            collectionView.reloadData()
+        }
+    }
 }
-    // MARK: UICollectionViewDataSource
+// MARK: UICollectionViewDataSource
 extension TrackerViewController : UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return categories.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return categories[section].trackers.count
     }
     
     
@@ -167,6 +188,8 @@ extension TrackerViewController : UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TrackerCollectionViewCell
         
+        let tracker = categories[indexPath.section].trackers[indexPath.row]
+        cell.configure(with: tracker)
         return cell
     }
     
@@ -176,17 +199,18 @@ extension TrackerViewController : UICollectionViewDataSource {
         else {
             preconditionFailure("Failed to cast UICollectionReusableView as TrackerCollectionViewHeader")
         }
-        trackerHeader.configure(model: TrackerCategory(name: "Хидер", trackers: []))
+        let category = categories[indexPath.section]
+        trackerHeader.configure(model: category)
         return trackerHeader
     }
 }
 
-    // MARK: UICollectionViewDelegate
+// MARK: UICollectionViewDelegate
 extension TrackerViewController : UICollectionViewDelegate {
-
-
+    
+    
 }
-    // MARK: UICollectionViewDelegateFlowLayout
+// MARK: UICollectionViewDelegateFlowLayout
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
@@ -219,11 +243,17 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
         return headerView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .required)
     }
 }
-    // MARK: TrackerViewControllerProtocol
+// MARK: TrackerViewControllerProtocol
 extension TrackerViewController : TrackerViewControllerProtocol {
- 
+    
     
     func didCreateNewTracker() {
-        // todo
+        fetchCategories()
+        updateView()
+    }
+    
+    private func fetchCategories() {
+        categories = CategoryService.shared.fetchCategories().filter {e in !e.trackers.isEmpty}
+        collectionView.reloadData()
     }
 }

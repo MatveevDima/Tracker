@@ -100,6 +100,16 @@ final class TrackerCollectionViewCell : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Methods
+    func configure(with tracker: Tracker) {
+            trackerId = tracker.id
+            nameLabel.text = tracker.name
+            emojiLabel.text = tracker.emoji
+            backgroundRect.backgroundColor = UIColor(cgColor: tracker.color)
+            configureCounterLabel(days: 0)
+            isCompleted = false
+        }
+    
     // MARK: Actions
     @objc
     func didTapCompleteButton() {
