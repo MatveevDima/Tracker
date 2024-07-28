@@ -11,6 +11,8 @@ final class CreateCategoryViewController : UIViewController {
     
     weak var delegate: CategoryViewControllerProtocol?
     
+    private let categoryService = CategoryService.shared
+    
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -113,7 +115,11 @@ final class CreateCategoryViewController : UIViewController {
     @objc
     private func didTapAddCategoryButton() {
         
+        guard let categoryName = textField.text else {return}
         
+        categoryService.createNewCategory(category: categoryName)
+        
+        didCreatedNewCategory()
     }
     
     @objc
@@ -131,4 +137,8 @@ final class CreateCategoryViewController : UIViewController {
 
 extension CreateCategoryViewController : CategoryDelegate {
     
+    func didCreatedNewCategory() {
+        delegate?.didCreatedNewCategory()
+        dismiss(animated: true)
+    }
 }

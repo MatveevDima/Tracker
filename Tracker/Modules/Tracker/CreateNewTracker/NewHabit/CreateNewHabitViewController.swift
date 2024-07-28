@@ -11,6 +11,8 @@ final class CreateNewHabitViewController : UIViewController {
     
     weak var delegate: CreateNewTrackerProtocol? 
     
+    private var pickedCategoy: String?
+    
     private var settings: [SettingsOptions] = []
     
     private lazy var headerLabel: UILabel = {
@@ -321,6 +323,10 @@ extension CreateNewHabitViewController: CreateNewTrackerDelegate {
 }
     // MARK: CreateNewHabitProtocol
 extension CreateNewHabitViewController: CreateNewHabitProtocol {
-  
     
+    func setPickedCategoy(_ category: String?) {
+        self.pickedCategoy = category
+        settings[0].pickedParameter = category
+        settingsTable.reloadData()
+    }
 }

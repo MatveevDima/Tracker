@@ -9,11 +9,11 @@ import Foundation
 
 struct TrackerCategory {
     
-    let header: String
+    let name: String
     let trackers: [Tracker]
     
-    init(header: String, trackers: [Tracker]) {
-        self.header = header
+    init(name: String, trackers: [Tracker]) {
+        self.name = name
         self.trackers = trackers
     }
 }

@@ -24,7 +24,7 @@ final class SettingsTableCell : UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         self.detailTextLabel?.font = .systemFont(ofSize: 17, weight: .regular)
-        self.detailTextLabel?.textColor = UIColor(named: "Gray")
+        self.detailTextLabel?.textColor = .lightGray
         setupView()
     }
     

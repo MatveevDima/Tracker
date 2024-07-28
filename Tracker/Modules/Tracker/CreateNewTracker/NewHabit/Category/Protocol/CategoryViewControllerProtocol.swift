@@ -9,5 +9,5 @@ import UIKit
 
 protocol CategoryViewControllerProtocol : AnyObject {
     
-    
+    func didCreatedNewCategory()
 }

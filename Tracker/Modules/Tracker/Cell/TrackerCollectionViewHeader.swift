@@ -34,7 +34,7 @@ final class TrackerCollectionViewHeader: UICollectionReusableView {
     
     // MARK: - Public Methods
     func configure(model: TrackerCategory) {
-        titleLabel.text = model.header
+        titleLabel.text = model.name
     }
     
     // MARK: - Private Methods

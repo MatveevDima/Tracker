@@ -10,4 +10,6 @@ import UIKit
 protocol CategoryDelegate {
     
     var delegate: CategoryViewControllerProtocol? { get set }
+    
+    func didCreatedNewCategory()
 }

@@ -9,4 +9,5 @@ import Foundation
 
 protocol CreateNewHabitProtocol : AnyObject {
     
+    func setPickedCategoy(_ category: String?)
 }

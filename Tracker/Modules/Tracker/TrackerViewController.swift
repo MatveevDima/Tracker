@@ -176,7 +176,7 @@ extension TrackerViewController : UICollectionViewDataSource {
         else {
             preconditionFailure("Failed to cast UICollectionReusableView as TrackerCollectionViewHeader")
         }
-        trackerHeader.configure(model: TrackerCategory(header: "Хидер", trackers: []))
+        trackerHeader.configure(model: TrackerCategory(name: "Хидер", trackers: []))
         return trackerHeader
     }
 }
