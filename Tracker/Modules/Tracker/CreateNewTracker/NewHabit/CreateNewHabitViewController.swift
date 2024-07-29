@@ -320,6 +320,7 @@ final class CreateNewHabitViewController : UIViewController {
     private func setCategory() {
         let categoryViewController = CategoryViewController()
         categoryViewController.delegate = self
+        categoryViewController.pickedCategory = pickedCategory
         present(categoryViewController, animated: true)
     }
     

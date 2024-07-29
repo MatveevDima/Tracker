@@ -15,8 +15,8 @@ final class CategoryViewController : UIViewController {
     
     private var categories: [TrackerCategory] = []
     
-    private var pickedCategory: TrackerCategory?
-    private var pickedCategoryIndex: Int?
+    var pickedCategory: TrackerCategory?
+    var pickedCategoryIndex: Int?
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -87,20 +87,8 @@ final class CategoryViewController : UIViewController {
     // MARK: Methods
     private func updateCategories() {
         
-        let oldCount = categories.count
-        
         categories = categoryService.categories
-        
-        categoryTable.performBatchUpdates { [weak self] in
-            
-            guard let self = self else { return }
-            
-            let indexPaths = (oldCount..<categories.count).map { i in
-                IndexPath(row: i, section: 0)
-            }
-            self.categoryTable.insertRows(at: indexPaths, with: UITableView.RowAnimation.automatic)
-        } completion: { _ in }
-        
+        categoryTable.reloadData()
         checkCategoriesIfEmpty()
     }
     
@@ -208,7 +196,13 @@ extension CategoryViewController: UITableViewDataSource {
         guard let cell: CategoryTableCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableCell.identifier) as? CategoryTableCell
         else { return UITableViewCell() }
         
-        cell.textLabel?.text = categories[indexPath.row].name
+        let categoryName = categories[indexPath.row].name
+        cell.textLabel?.text = categoryName
+        
+        if pickedCategory != nil && categoryName == pickedCategory?.name {
+            cell.showImage()
+            return cell
+        }
         
         // Обновление состояния иконки в зависимости от выбранного индекса
         if indexPath.row == pickedCategoryIndex {
