@@ -63,4 +63,39 @@ final class CategoryTableCell : UITableViewCell {
             accessoryImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        roundCorners()
+    }
+    
+    private func roundCorners() {
+        let cornerRadius: CGFloat = 16
+        var maskedCorners: CACornerMask = []
+        
+        if isFirstRow && isLastRow {
+            maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else if isFirstRow {
+            maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else if isLastRow {
+            maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        
+        contentView.layer.cornerRadius = cornerRadius
+        contentView.layer.maskedCorners = maskedCorners
+    }
+    
+    private var isFirstRow: Bool {
+        return indexPath?.row == 0
+    }
+    
+    private var isLastRow: Bool {
+        guard let tableView = superview as? UITableView else { return false }
+        return indexPath?.row == tableView.numberOfRows(inSection: indexPath?.section ?? 0) - 1
+    }
+    
+    private var indexPath: IndexPath? {
+        guard let tableView = superview as? UITableView else { return nil }
+        return tableView.indexPath(for: self)
+    }
 }
