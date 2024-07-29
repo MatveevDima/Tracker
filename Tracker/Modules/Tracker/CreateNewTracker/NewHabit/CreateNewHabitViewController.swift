@@ -13,7 +13,7 @@ final class CreateNewHabitViewController : UIViewController {
     private let categoryService = CategoryService.shared
     
     private var pickedCategory: TrackerCategory?
-    private var pickedSchedule: Set<WeekDay>?
+    private var pickedSchedule: Set<WeekDay> = []
     
     private var settings: [SettingsOptions] = []
     
@@ -161,8 +161,7 @@ final class CreateNewHabitViewController : UIViewController {
     @objc private func didTapCreateButton() {
         guard 
             let trackerName = textField.text,
-            let pickedCategory = pickedCategory,
-            let pickedSchedule = pickedSchedule
+            let pickedCategory = pickedCategory
         else { return }
         
         dismiss(animated: true)
@@ -327,6 +326,7 @@ final class CreateNewHabitViewController : UIViewController {
     private func setSchedule() {
         let scheduleViewController = ScheduleViewController()
         scheduleViewController.delegate = self
+        scheduleViewController.selectedDays = pickedSchedule
         present(scheduleViewController, animated: true)
     }
 }
@@ -368,7 +368,7 @@ extension CreateNewHabitViewController: CreateNewHabitProtocol {
     
     func setPickedSchedule(_ weekDays: Set<WeekDay>) {
         self.pickedSchedule = weekDays
-        settings[1].pickedParameter = weekDays.map({e in e.shortName}).joined(separator: ", ")
+        settings[1].pickedParameter = weekDays.sortedByOrder().map({e in e.shortName}).joined(separator: ", ")
         settingsTable.reloadData()
         checkForActivateCreateButton()
     }

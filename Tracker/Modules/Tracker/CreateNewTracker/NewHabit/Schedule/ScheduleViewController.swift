@@ -13,7 +13,7 @@ final class ScheduleViewController : UIViewController {
     
     private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     
-    private var selectedDays: Set<WeekDay> = []
+    var selectedDays: Set<WeekDay> = []
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
