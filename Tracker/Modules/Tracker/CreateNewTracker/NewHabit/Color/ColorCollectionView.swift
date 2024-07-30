@@ -1,5 +1,5 @@
 //
-//  EmojiCollectionView.swift
+//  ColorCollectionView.swift
 //  Tracker
 //
 //  Created by Дмитрий Матвеев on 30.07.2024.
@@ -7,18 +7,18 @@
 
 import UIKit
 
-final class EmojiCollectionView: UIView {
+final class ColorCollectionView: UIView {
     
     weak var delegate: CreateNewHabitProtocol?
     
-    private let emojis: [String] = [
-        "🙂", "😻", "🌺", "🐶", "❤️", "😱",
-        "😇", "😡", "🥶", "🤔", "🙌", "🍔",
-        "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
+    private let colors: [UIColor] = [
+        .ccRed, .ccOrange, .ccBlue, .ccPurple, .ccGreen, .ccPink,
+        .ccNude, .ccLightBlue, .ccLightGreen, .ccDarkPurple, .ccDarkOrange, .ccLightPink,
+        .ccBeige, .ccLilo, .ccDarkLilo, .ccDarkPink, .ccLightPurple, .ccDarkGreen
     ]
     
-    private var selectedEmojiIndex: IndexPath?
-    private var selectedEmoji: String?
+    private var selectedColorIndex: IndexPath?
+    private var selectedColor: UIColor?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -30,8 +30,9 @@ final class EmojiCollectionView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
-        collectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: EmojiCollectionViewCell.identifier)
-        collectionView.register(EmojiCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: EmojiCollectionHeaderView.identifier)
+        collectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.identifier)
+        collectionView.register(ColorCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ColorCollectionHeaderView.identifier)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -60,44 +61,44 @@ final class EmojiCollectionView: UIView {
     }
 }
 
-extension EmojiCollectionView: UICollectionViewDataSource {
+extension ColorCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return emojis.count
+        return colors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as! EmojiCollectionViewCell
-        cell.configure(with: emojis[indexPath.item])
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.identifier, for: indexPath) as! ColorCollectionViewCell
+        cell.configure(with: colors[indexPath.item])
         return cell
     }
 }
 
-extension EmojiCollectionView: UICollectionViewDelegate {
+extension ColorCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let previousIndex = selectedEmojiIndex {
-            let previousCell = collectionView.cellForItem(at: previousIndex) as? EmojiCollectionViewCell
+        if let previousIndex = selectedColorIndex {
+            let previousCell = collectionView.cellForItem(at: previousIndex) as? ColorCollectionViewCell
             previousCell?.setSelected(false)
         }
         
-        selectedEmojiIndex = indexPath
+        selectedColorIndex = indexPath
         
-        let selectedCell = collectionView.cellForItem(at: indexPath) as! EmojiCollectionViewCell
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! ColorCollectionViewCell
         selectedCell.setSelected(true)
         
-        selectedEmoji = emojis[indexPath.item]
-        delegate?.setPickedEmoji(selectedEmoji)
+        selectedColor = colors[indexPath.item]
+        delegate?.setPickedColor(selectedColor)
     }
 }
 
-extension EmojiCollectionView: UICollectionViewDelegateFlowLayout {
+extension ColorCollectionView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EmojiCollectionHeaderView.identifier, for: indexPath) as? EmojiCollectionHeaderView else {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ColorCollectionHeaderView.identifier, for: indexPath) as? ColorCollectionHeaderView else {
             fatalError("Invalid view type")
         }
-        header.configure(with: "Emoji")
+        header.configure(with: "Цвет")
         return header
     }
     
@@ -123,4 +124,4 @@ extension EmojiCollectionView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension EmojiCollectionView : CreateNewHabitDelegate {}
+extension ColorCollectionView : CreateNewHabitDelegate {}

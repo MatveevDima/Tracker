@@ -15,6 +15,7 @@ final class CreateNewHabitViewController : UIViewController {
     private var pickedCategory: TrackerCategory?
     private var pickedSchedule: Set<WeekDay> = []
     private var pickedEmoji: String?
+    private var pickedColor: UIColor?
     
     private var settings: [SettingsOptions] = []
     
@@ -105,6 +106,13 @@ final class CreateNewHabitViewController : UIViewController {
         return emojiCollectionView
     }()
     
+    private lazy var colorCollectionView: ColorCollectionView = {
+        let colorCollectionView = ColorCollectionView()
+        colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        colorCollectionView.delegate = self
+        return colorCollectionView
+    }()
+    
     private lazy var stackForButtons: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -169,7 +177,9 @@ final class CreateNewHabitViewController : UIViewController {
     @objc private func didTapCreateButton() {
         guard 
             let trackerName = textField.text,
-            let pickedCategory = pickedCategory
+            let pickedCategory = pickedCategory,
+            let pickedColor = pickedColor,
+            let pickedEmoji = pickedEmoji
         else { return }
         
         dismiss(animated: true)
@@ -177,8 +187,8 @@ final class CreateNewHabitViewController : UIViewController {
         let newHabit = Tracker(
             id: UUID(),
             name: trackerName,
-            color: (UIColor(named: "light_green") ?? .green).cgColor,
-            emoji: pickedEmoji ?? "🙂",
+            color: pickedColor.cgColor,
+            emoji: pickedEmoji,
             schedule: pickedSchedule
         )
         
@@ -192,6 +202,7 @@ final class CreateNewHabitViewController : UIViewController {
             !(textField.text ?? "").isEmpty
             && pickedCategory != nil
             && pickedEmoji != nil
+            && pickedColor != nil
         ) {
             createButton.isEnabled = true
             createButton.backgroundColor = .black
@@ -212,6 +223,7 @@ final class CreateNewHabitViewController : UIViewController {
         setupTextField()
         setupTablelView()
         setupEmojiCollectionView()
+        setupColorCollectionView()
         setupButtons()
     }
     
@@ -276,13 +288,22 @@ final class CreateNewHabitViewController : UIViewController {
     }
     
     func setupEmojiCollectionView() {
-           
-           stackView.addArrangedSubview(emojiCollectionView)
-           
-           NSLayoutConstraint.activate([
-               emojiCollectionView.heightAnchor.constraint(equalToConstant: 240)
-           ])
-       }
+        
+        stackView.addArrangedSubview(emojiCollectionView)
+        
+        NSLayoutConstraint.activate([
+            emojiCollectionView.heightAnchor.constraint(equalToConstant: 240)
+        ])
+    }
+    
+    func setupColorCollectionView() {
+        
+        stackView.addArrangedSubview(colorCollectionView)
+        
+        NSLayoutConstraint.activate([
+            colorCollectionView.heightAnchor.constraint(equalToConstant: 240)
+        ])
+    }
     
     func setupButtons() {
         
@@ -403,6 +424,11 @@ extension CreateNewHabitViewController: CreateNewHabitProtocol {
     
     func setPickedEmoji(_ emoji: String?) {
         self.pickedEmoji = emoji
+        checkForActivateCreateButton()
+    }
+    
+    func setPickedColor(_ color: UIColor?) {
+        self.pickedColor = color
         checkForActivateCreateButton()
     }
 }

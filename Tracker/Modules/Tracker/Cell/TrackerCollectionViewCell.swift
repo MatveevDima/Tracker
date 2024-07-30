@@ -106,6 +106,7 @@ final class TrackerCollectionViewCell : UICollectionViewCell {
             nameLabel.text = tracker.name
             emojiLabel.text = tracker.emoji
             backgroundRect.backgroundColor = UIColor(cgColor: tracker.color)
+            completeButton.backgroundColor = UIColor(cgColor: tracker.color)
             configureCounterLabel(days: 0)
             isCompleted = false
         }
