@@ -12,4 +12,6 @@ protocol CreateNewHabitProtocol : AnyObject {
     func setPickedCategoy(_ category: TrackerCategory?)
     
     func setPickedSchedule(_ weekDays: Set<WeekDay>)
+    
+    func setPickedEmoji(_ emoji: String?)
 }

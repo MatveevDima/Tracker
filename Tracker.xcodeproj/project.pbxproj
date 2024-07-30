@@ -30,6 +30,9 @@
 		E77CDB8B2C56AA21001658D1 /* ScheduleTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB8A2C56AA21001658D1 /* ScheduleTableCell.swift */; };
 		E77CDB8E2C56ACD1001658D1 /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB8D2C56ACD1001658D1 /* WeekDay.swift */; };
 		E77CDB912C56ACF1001658D1 /* ScheduleTableCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB902C56ACF1001658D1 /* ScheduleTableCellDelegate.swift */; };
+		E77CDB942C58EA86001658D1 /* EmojiCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB932C58EA86001658D1 /* EmojiCollectionView.swift */; };
+		E77CDB962C58EADC001658D1 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB952C58EADC001658D1 /* EmojiCollectionViewCell.swift */; };
+		E77CDB982C58ED26001658D1 /* EmojiCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB972C58ED26001658D1 /* EmojiCollectionHeaderView.swift */; };
 		E7FE427C2C4E90C300FE725A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FE427B2C4E90C300FE725A /* AppDelegate.swift */; };
 		E7FE427E2C4E90C300FE725A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FE427D2C4E90C300FE725A /* SceneDelegate.swift */; };
 		E7FE42852C4E90C400FE725A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7FE42842C4E90C400FE725A /* Assets.xcassets */; };
@@ -66,6 +69,9 @@
 		E77CDB8A2C56AA21001658D1 /* ScheduleTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableCell.swift; sourceTree = "<group>"; };
 		E77CDB8D2C56ACD1001658D1 /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
 		E77CDB902C56ACF1001658D1 /* ScheduleTableCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableCellDelegate.swift; sourceTree = "<group>"; };
+		E77CDB932C58EA86001658D1 /* EmojiCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionView.swift; sourceTree = "<group>"; };
+		E77CDB952C58EADC001658D1 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		E77CDB972C58ED26001658D1 /* EmojiCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionHeaderView.swift; sourceTree = "<group>"; };
 		E7FE42782C4E90C300FE725A /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7FE427B2C4E90C300FE725A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7FE427D2C4E90C300FE725A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 		E77CDB5F2C523C5F001658D1 /* NewHabit */ = {
 			isa = PBXGroup;
 			children = (
+				E77CDB922C58EA6D001658D1 /* Emoji */,
 				E77CDB862C56A430001658D1 /* Schedule */,
 				E77CDB742C53DD18001658D1 /* Delegate */,
 				E77CDB712C53DC4F001658D1 /* Protocol */,
@@ -168,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				E77CDB692C5277BC001658D1 /* SettingsTableCell.swift */,
+				E77CDB952C58EADC001658D1 /* EmojiCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -282,6 +290,15 @@
 				E77CDB902C56ACF1001658D1 /* ScheduleTableCellDelegate.swift */,
 			);
 			path = Delegate;
+			sourceTree = "<group>";
+		};
+		E77CDB922C58EA6D001658D1 /* Emoji */ = {
+			isa = PBXGroup;
+			children = (
+				E77CDB932C58EA86001658D1 /* EmojiCollectionView.swift */,
+				E77CDB972C58ED26001658D1 /* EmojiCollectionHeaderView.swift */,
+			);
+			path = Emoji;
 			sourceTree = "<group>";
 		};
 		E7FE426F2C4E90C300FE725A = {
@@ -447,6 +464,7 @@
 				E77CDB5E2C5155C4001658D1 /* TrackerViewControllerDelegate.swift in Sources */,
 				E7FE429C2C4FBB6300FE725A /* Tracker.swift in Sources */,
 				E77CDB8B2C56AA21001658D1 /* ScheduleTableCell.swift in Sources */,
+				E77CDB982C58ED26001658D1 /* EmojiCollectionHeaderView.swift in Sources */,
 				E77CDB822C54F995001658D1 /* CategoryService.swift in Sources */,
 				E77CDB792C54F456001658D1 /* CreateCategoryViewController.swift in Sources */,
 				E7FE42A02C4FBC9D00FE725A /* TrackerRecord.swift in Sources */,
@@ -458,6 +476,8 @@
 				E77CDB8E2C56ACD1001658D1 /* WeekDay.swift in Sources */,
 				E77CDB852C55044F001658D1 /* CategoryTableCell.swift in Sources */,
 				E77CDB912C56ACF1001658D1 /* ScheduleTableCellDelegate.swift in Sources */,
+				E77CDB942C58EA86001658D1 /* EmojiCollectionView.swift in Sources */,
+				E77CDB962C58EADC001658D1 /* EmojiCollectionViewCell.swift in Sources */,
 				E77CDB532C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift in Sources */,
 				E77CDB5B2C51556F001658D1 /* CreateNewTrackerDelegate.swift in Sources */,
 				E77CDB7F2C54F61F001658D1 /* CategoryDelegate.swift in Sources */,
