@@ -9,10 +9,12 @@ import Foundation
 
 struct TrackerCategory {
     
+    let id: UUID
     let name: String
     var trackers: [Tracker]
     
-    init(name: String, trackers: [Tracker]) {
+    init(id: UUID, name: String, trackers: [Tracker]) {
+        self.id = id
         self.name = name
         self.trackers = trackers
     }

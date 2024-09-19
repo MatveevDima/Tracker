@@ -17,7 +17,7 @@ final class CategoryService {
     
     func createNewCategory(category name: String) {
         guard !categories.contains(where: { $0.name == name }) else { return }
-        let category = TrackerCategory(name: name, trackers: [])
+        let category = TrackerCategory(id: UUID(), name: name, trackers: [])
         categories.append(category)
     }
     
@@ -26,7 +26,7 @@ final class CategoryService {
         if let index = categories.firstIndex(where: { $0.name == categoryName }) {
             categories[index].trackers.append(tracker)
         } else {
-            let newCategory = TrackerCategory(name: categoryName, trackers: [tracker])
+            let newCategory = TrackerCategory(id: UUID(), name: categoryName, trackers: [tracker])
             categories.append(newCategory)
         }
     }
