@@ -9,6 +9,8 @@ import UIKit
 
 final class TrackerViewController : UIViewController {
     
+    private var trackerCategoryStore = TrackerCategoryStore.shared
+    
     private let widthParameters = CollectionParameters(
         cellsNumber: 2,
         leftInset: 16,
@@ -83,6 +85,7 @@ final class TrackerViewController : UIViewController {
         setupNavBar()
         setupCollectionView()
         setupPlaceholder()
+        fetchCategories()
         updateView()
     }
     
@@ -253,7 +256,7 @@ extension TrackerViewController : TrackerViewControllerProtocol {
     }
     
     private func fetchCategories() {
-        categories = CategoryService.shared.fetchCategories().filter {e in !e.trackers.isEmpty}
+        categories = trackerCategoryStore.getCategories().filter {e in !e.trackers.isEmpty}
         collectionView.reloadData()
     }
 }

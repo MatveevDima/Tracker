@@ -36,7 +36,7 @@ final class TrackerCategoryStore: NSObject {
         let alltrackers = category.trackers?.allObjects as! [TrackerCoreData]
         for tracker in alltrackers {
             if let id = tracker.id, let name = tracker.name, let emoji = tracker.emoji, let colour = UIColor(named: tracker.colour!), let schedule = tracker.schedule?.schedule  {
-                let newTracker = Tracker(id: id, name: name, color: colour.cgColor, emoji: emoji, schedule: schedule)
+                let newTracker = Tracker(id: id, name: name, color: colour, emoji: emoji, schedule: schedule)
                 trackers.append(newTracker)
             }
             
@@ -58,7 +58,7 @@ final class TrackerCategoryStore: NSObject {
                 let emoji = tracker.emoji!
                 let colour = UIColor(named: tracker.colour!)!
                 let schedule = tracker.schedule?.schedule
-                let newTracker = Tracker(id: id, name: name, color: colour.cgColor, emoji: emoji, schedule: schedule)
+                let newTracker = Tracker(id: id, name: name, color: colour, emoji: emoji, schedule: schedule)
                 trackers.append(newTracker)
             }
             let newCategory = TrackerCategory(id: id, name: name, trackers: trackers)
@@ -123,7 +123,7 @@ final class TrackerCategoryStore: NSObject {
         request.predicate = NSPredicate(format: "id == %@", uuid)
         let category = try! context.fetch(request)
         
-        return category[0]
+        return category.first!
     }
     
     func fetchCategoryWithName(_ name: String) -> TrackerCategoryCoreData? {

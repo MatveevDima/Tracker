@@ -70,8 +70,9 @@ final class DaysValueTransformer: ValueTransformer {
     }
     
     static func register() {
-        ValueTransformer.setValueTransformer(DaysValueTransformer(),
-                                             forName: NSValueTransformerName(String(describing: DaysValueTransformer.self)))
+        let name = NSValueTransformerName(String(describing: DaysValueTransformer.self))
+        ValueTransformer.setValueTransformer(DaysValueTransformer(), forName: name)
+        print("DaysValueTransformer registered with name: \(name)")
     }
 }
 

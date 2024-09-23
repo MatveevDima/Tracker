@@ -27,7 +27,7 @@ final class TrackerStore {
     func convertToTracker(coreDataTracker: TrackerCoreData) -> Tracker {
         let id = coreDataTracker.id!
         let name = coreDataTracker.name!
-        let colour = UIColor(named: coreDataTracker.colour!)!.cgColor
+        let colour = UIColor(named: coreDataTracker.colour!)!
         let emoji = coreDataTracker.emoji!
         let schedule = coreDataTracker.schedule?.schedule
         return  Tracker(id: id, name: name, color: colour, emoji: emoji, schedule: schedule)
@@ -39,7 +39,7 @@ final class TrackerStore {
         newTracker.id = tracker.id
         newTracker.name = tracker.name
         newTracker.emoji = tracker.emoji
-        newTracker.colour = UIColor(cgColor: tracker.color).name!
+        newTracker.colour = tracker.color.name
         if let schedule = tracker.schedule {
             newTracker.schedule = DaysValue(schedule: schedule)
         }

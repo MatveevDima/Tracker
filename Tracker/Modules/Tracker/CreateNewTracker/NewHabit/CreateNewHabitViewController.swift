@@ -10,7 +10,7 @@ import UIKit
 final class CreateNewHabitViewController : UIViewController {
     
     weak var delegate: CreateNewTrackerProtocol? 
-    private let categoryService = CategoryService.shared
+    private let trackerStore = TrackerStore.shared
     
     private var pickedCategory: TrackerCategory?
     private var pickedSchedule: Set<WeekDay> = []
@@ -187,12 +187,12 @@ final class CreateNewHabitViewController : UIViewController {
         let newHabit = Tracker(
             id: UUID(),
             name: trackerName,
-            color: pickedColor.cgColor,
+            color: pickedColor,
             emoji: pickedEmoji,
             schedule: pickedSchedule
         )
         
-        categoryService.addTrackerToCategory(newHabit, categoryName: pickedCategory.name)
+        trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
         delegate?.didCreateNewHabit()
     }
     

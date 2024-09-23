@@ -11,7 +11,7 @@ final class CreateCategoryViewController : UIViewController {
     
     weak var delegate: CategoryViewControllerProtocol?
     
-    private let categoryService = CategoryService.shared
+    private var trackerCategoryStore = TrackerCategoryStore.shared
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -116,9 +116,8 @@ final class CreateCategoryViewController : UIViewController {
     private func didTapAddCategoryButton() {
         
         guard let categoryName = textField.text else {return}
-        
-        categoryService.createNewCategory(category: categoryName)
-        
+        let newCategory = TrackerCategory(id: UUID(), name: categoryName, trackers: [])
+        trackerCategoryStore.saveCategoryToCoreData(newCategory)
         didCreatedNewCategory()
     }
     

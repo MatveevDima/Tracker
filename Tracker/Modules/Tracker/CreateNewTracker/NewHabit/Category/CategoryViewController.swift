@@ -11,7 +11,7 @@ final class CategoryViewController : UIViewController {
     
     weak var delegate: CreateNewHabitProtocol?
     
-    private let categoryService = CategoryService.shared
+    private var trackerCategoryStore = TrackerCategoryStore.shared
     
     private var categories: [TrackerCategory] = []
     
@@ -87,7 +87,7 @@ final class CategoryViewController : UIViewController {
     // MARK: Methods
     private func updateCategories() {
         
-        categories = categoryService.categories
+        categories = trackerCategoryStore.getCategories()
         categoryTable.reloadData()
         checkCategoriesIfEmpty()
     }
