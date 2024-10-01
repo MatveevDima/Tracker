@@ -16,10 +16,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let windowScene = (scene as? UIWindowScene)
         else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarController()
+        configureInitialViewController()
+    }
+
+    private func configureInitialViewController() {
+
+        let defaults = UserDefaults.standard
+        let initialViewController: UIViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        if (!defaults.bool(forKey: "SkippedUnboarding")) {
+            
+            defaults.set(0, forKey: "TrackersOnMonday")
+            defaults.set(0, forKey: "TrackersOnTuesday")
+            defaults.set(0, forKey: "TrackersOnWednesday")
+            defaults.set(0, forKey: "TrackersOnThursday")
+            defaults.set(0, forKey: "TrackersOnFriday")
+            defaults.set(0, forKey: "TrackersOnSaturday")
+            defaults.set(0, forKey: "TrackersOnSunday")
+            
+            let onboardingController = storyboard.instantiateViewController(withIdentifier: "OnboardingController")
+            initialViewController = onboardingController
+        } else {
+            let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController")
+            initialViewController = tabBarController
+        }
+        self.window?.rootViewController = initialViewController
         window?.makeKeyAndVisible()
     }
 
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

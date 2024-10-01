@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E70C6DA52CA70E5F004C8600 /* OnboardingViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DA42CA70E5F004C8600 /* OnboardingViewControllerBase.swift */; };
+		E70C6DA72CA713DC004C8600 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DA62CA713DC004C8600 /* OnboardingViewController.swift */; };
+		E70C6DA92CA71667004C8600 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DA82CA71667004C8600 /* Main.storyboard */; };
 		E77CDB502C4FEAC0001658D1 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */; };
 		E77CDB532C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */; };
 		E77CDB552C5110E6001658D1 /* CollectionParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB542C5110E6001658D1 /* CollectionParameters.swift */; };
@@ -60,6 +63,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E70C6DA42CA70E5F004C8600 /* OnboardingViewControllerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerBase.swift; sourceTree = "<group>"; };
+		E70C6DA62CA713DC004C8600 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		E70C6DA82CA71667004C8600 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
 		E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		E77CDB542C5110E6001658D1 /* CollectionParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionParameters.swift; sourceTree = "<group>"; };
@@ -372,6 +378,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E77CDC4E2CA6FCA5001658D1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E70C6DA42CA70E5F004C8600 /* OnboardingViewControllerBase.swift */,
+				E70C6DA62CA713DC004C8600 /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		E7FE426F2C4E90C300FE725A = {
 			isa = PBXGroup;
 			children = (
@@ -407,6 +422,7 @@
 				E7FE42842C4E90C400FE725A /* Assets.xcassets */,
 				E7FE42862C4E90C400FE725A /* LaunchScreen.storyboard */,
 				E7FE42892C4E90C400FE725A /* Info.plist */,
+				E70C6DA82CA71667004C8600 /* Main.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -422,6 +438,7 @@
 		E7FE42952C4E979A00FE725A /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				E77CDC4E2CA6FCA5001658D1 /* Onboarding */,
 				E77CDC062C9AD003001658D1 /* Store */,
 				E77CDC102C9C21FA001658D1 /* Model */,
 				E77CDB622C523D5D001658D1 /* Protocol */,
@@ -521,6 +538,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E70C6DA92CA71667004C8600 /* Main.storyboard in Resources */,
 				E7FE42852C4E90C400FE725A /* Assets.xcassets in Resources */,
 				E7FE42882C4E90C400FE725A /* Base in Resources */,
 			);
@@ -567,8 +585,10 @@
 				E77CDB7F2C54F61F001658D1 /* CategoryDelegate.swift in Sources */,
 				E77CDB502C4FEAC0001658D1 /* TrackerCollectionViewCell.swift in Sources */,
 				E77CDB552C5110E6001658D1 /* CollectionParameters.swift in Sources */,
+				E70C6DA52CA70E5F004C8600 /* OnboardingViewControllerBase.swift in Sources */,
 				E77CDB762C53DD38001658D1 /* CreateNewHabitDelegate.swift in Sources */,
 				E7FE427C2C4E90C300FE725A /* AppDelegate.swift in Sources */,
+				E70C6DA72CA713DC004C8600 /* OnboardingViewController.swift in Sources */,
 				E77CDB882C56A449001658D1 /* ScheduleViewController.swift in Sources */,
 				E77CDC182C9C2E46001658D1 /* TrackerCoreData+CoreDataProperties.swift in Sources */,
 				E77CDBA32C591D69001658D1 /* UIColor+Extensions.swift in Sources */,
