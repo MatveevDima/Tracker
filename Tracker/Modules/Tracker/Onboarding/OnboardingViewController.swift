@@ -10,8 +10,8 @@ import UIKit
 final class OnboardingViewController : UIPageViewController {
     
     lazy private var pages: [UIViewController] = {
-        let first = OnboardingViewControllerBase(imageName: "background 1", labelText: NSLocalizedString("Отслеживайте только то, что хотите", comment: ""))
-        let second = OnboardingViewControllerBase(imageName: "background 2", labelText: NSLocalizedString("Даже если это не литры воды и йога", comment: ""))
+        let first = OnboardingViewControllerBase(imageName: "background 1", labelText: "Отслеживайте только то, что хотите")
+        let second = OnboardingViewControllerBase(imageName: "background 2", labelText: "Даже если это не литры воды и йога")
         
         return [first, second]
     }()
@@ -29,10 +29,19 @@ final class OnboardingViewController : UIPageViewController {
         return pageControl
     }()
     
+    init() {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         delegate = self
+        
         if let first = pages.first {
             setViewControllers([first], direction: .forward, animated: true, completion: nil)
         }
