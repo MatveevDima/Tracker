@@ -11,6 +11,7 @@ final class CategoryTableCell : UITableViewCell {
     
     // MARK: - Public Properties
     static let identifier = "CategoryTableCell"
+    var viewModel: CategoryViewModel?
     
     // MARK: - Private Properties
     private lazy var accessoryImage: UIImageView = {
@@ -35,6 +36,29 @@ final class CategoryTableCell : UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+    }
+    
+    func configure(indexPath: IndexPath) {
+        selectionStyle = .none
+        
+        guard
+            let viewModel = viewModel
+        else { return }
+        
+        let category = viewModel.categories[indexPath.row]
+        
+        textLabel?.text = category.name
+        
+        guard let selectedCategory = viewModel.selectedCategory else {
+            hideImage()
+            return
+        }
+        
+        if (selectedCategory == category) {
+            showImage()
+        } else {
+            hideImage()
+        }
     }
     
     // MARK: - Actions

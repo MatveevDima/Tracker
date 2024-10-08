@@ -9,14 +9,12 @@ import UIKit
 
 final class CategoryViewController : UIViewController {
     
+    var viewModel: CategoryViewModel?
     weak var delegate: CreateNewHabitProtocol?
     
     private var trackerCategoryStore = TrackerCategoryStore.shared
     
-    private var categories: [TrackerCategory] = []
-    
     var pickedCategory: TrackerCategory?
-    var pickedCategoryIndex: Int?
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -73,7 +71,32 @@ final class CategoryViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel = CategoryViewModel()
+        viewModel?.delegate = delegate
+        viewModel?.selectedCategory = pickedCategory
+        bind()
+        
+        viewModel?.getCategories()
+        checkCategoriesIfEmpty()
+        
         setupView()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func bind() {
+        guard let viewModel = viewModel else { return }
+
+        viewModel.onChange = { [weak self] in
+            self?.categoryTable.reloadData()
+            self?.checkCategoriesIfEmpty()
+        }
+    }
+    
+    private func addInteraction(toCell cell: UITableViewCell) {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
     }
     
     // MARK: Actions
@@ -86,15 +109,16 @@ final class CategoryViewController : UIViewController {
     
     // MARK: Methods
     private func updateCategories() {
-        
-        categories = trackerCategoryStore.getCategories()
+        guard let viewModel = viewModel else { return }
+        viewModel.getCategories()
         categoryTable.reloadData()
         checkCategoriesIfEmpty()
     }
     
     private func checkCategoriesIfEmpty() {
         
-        if (categories.isEmpty) {
+        guard let viewModel = viewModel else { return }
+        if viewModel.categoriesNumber() == 0 {
             hideCategoryTable()
             showPlaceholder()
         } else {
@@ -189,26 +213,22 @@ final class CategoryViewController : UIViewController {
 extension CategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        guard let viewModel = viewModel else  { return 0 }
+        return viewModel.categoriesNumber()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell: CategoryTableCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableCell.identifier) as? CategoryTableCell
         else { return UITableViewCell() }
         
-        let categoryName = categories[indexPath.row].name
-        cell.textLabel?.text = categoryName
+        guard let viewModel = viewModel else { return cell }
+        cell.viewModel = viewModel
+        cell.configure(indexPath: indexPath)
+        addInteraction(toCell: cell)
         
-        if pickedCategory != nil && categoryName == pickedCategory?.name {
-            cell.showImage()
-            return cell
-        }
-        
-        // Обновление состояния иконки в зависимости от выбранного индекса
-        if indexPath.row == pickedCategoryIndex {
-            cell.showImage()
-        } else {
-            cell.hideImage()
+        if (indexPath.row == viewModel.categoriesNumber() - 1) {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }
               
         
@@ -216,44 +236,64 @@ extension CategoryViewController: UITableViewDataSource {
     }
 }
 
+// MARK: UIContextMenuInteractionDelegate
+extension CategoryViewController: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        guard let viewModel = viewModel else { return nil }
+        let item = viewModel.categories[indexPath.row]
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil)
+//        { _ -> UIMenu? in
+//            
+//            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
+//                let viewController = CreateNewCategoryViewController()
+//                viewController.titleText = NSLocalizedString("Edit category", comment: "")
+//                viewController.startingString = item.name
+//                viewController.categoryId = item.id
+//                viewController.delegate = self
+//                self.present(viewController, animated: true)
+//            }
+//            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
+//                
+//                let actionSheet: UIAlertController = {
+//                    let alert = UIAlertController()
+//                    alert.title = NSLocalizedString("Delete category confirmation", comment: "")
+//                    return alert
+//                }()
+//                let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
+//                    viewModel.deleteCategory(item)
+//                }
+//                let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+//                actionSheet.addAction(action1)
+//                actionSheet.addAction(action2)
+//                self.present(actionSheet, animated: true)
+//            }
+//            return UIMenu(title: "", children: [editAction, deleteAction])
+//        }
+    }
+}
+
+
     // MARK: UITableViewDelegate
 extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         
+        guard let viewModel = viewModel else { return }
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        viewModel.didSelectCategoryAt(indexPath: indexPath)
+        dismiss(animated: true)
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
-        // Проверка, был ли ранее выбранный индекс
-        if let previousIndex = pickedCategoryIndex {
-            let previousIndexPath = IndexPath(item: previousIndex, section: 0)
-            
-            // Скрытие иконки на предыдущей ячейке
-            if let previousCell = tableView.cellForRow(at: previousIndexPath) as? CategoryTableCell {
-                previousCell.hideImage()
-            }
-            
-            // Если текущая ячейка была выбрана повторно, снимаем выбор
-            if previousIndex == indexPath.row {
-                pickedCategoryIndex = nil
-                pickedCategory = nil
-                tableView.reloadRows(at: [previousIndexPath], with: .automatic)
-                delegate?.setPickedCategoy(nil)
-                return
-            }
-        }
-        
-        // Отображение иконки на текущей выбранной ячейке
-        if let currentCell = tableView.cellForRow(at: indexPath) as? CategoryTableCell {
-            currentCell.showImage()
-        }
-        
-        pickedCategory = categories[indexPath.row]
-        pickedCategoryIndex = indexPath.row
-        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
         tableView.reloadRows(at: [indexPath], with: .automatic)
-        
-        delegate?.setPickedCategoy(pickedCategory)
-        dismiss(animated: true, completion: nil)
     }
 }
 
