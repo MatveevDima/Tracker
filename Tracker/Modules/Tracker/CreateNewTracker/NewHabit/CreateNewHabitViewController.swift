@@ -22,7 +22,7 @@ final class CreateNewHabitViewController : UIViewController {
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Новая привычка"
+        headerLabel.text = NSLocalizedString("New habit", comment: "")
         headerLabel.font = .systemFont(ofSize: 16, weight: .medium)
         headerLabel.textColor = .black
         return headerLabel
@@ -46,7 +46,7 @@ final class CreateNewHabitViewController : UIViewController {
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = NSLocalizedString("Input tracker name", comment: "")
         textField.font = .systemFont(ofSize: 17, weight: .medium)
         textField.textColor = .black
         textField.backgroundColor =  UIColor(named: "light_gray_for_background") ?? .lightGray
@@ -79,7 +79,7 @@ final class CreateNewHabitViewController : UIViewController {
         
         errorMessage.textColor = UIColor(named: "light_red_for_cancel_button")
         errorMessage.font = .systemFont(ofSize: 17, weight: .medium)
-        errorMessage.text = "Ограничение 38 символов"
+        errorMessage.text = NSLocalizedString("Name length restriction", comment: "")
         
         return errorMessage
     }()
@@ -124,7 +124,7 @@ final class CreateNewHabitViewController : UIViewController {
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton(type: .custom)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(NSLocalizedString("Cancel", comment: ""), for: .normal)
         cancelButton.setTitleColor(UIColor(named: "light_red_for_cancel_button"), for: .normal)
         cancelButton.backgroundColor = .white
         cancelButton.layer.borderColor = (UIColor(named: "light_red_for_cancel_button") ?? .red).cgColor
@@ -139,7 +139,7 @@ final class CreateNewHabitViewController : UIViewController {
     private lazy var createButton: UIButton = {
         let createButton = UIButton(type: .custom)
         createButton.translatesAutoresizingMaskIntoConstraints = false
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(NSLocalizedString("Create", comment: ""), for: .normal)
         createButton.setTitleColor(.white, for: .normal)
         createButton.backgroundColor = UIColor(named: "light_gray_for_background") ?? .lightGray
         createButton.layer.cornerRadius = 16
@@ -330,7 +330,7 @@ final class CreateNewHabitViewController : UIViewController {
         
         settings.append(
             SettingsOptions(
-                name: "Категория",
+                name: NSLocalizedString("Category", comment: ""),
                 pickedParameter: nil,// isEdit ? pickedCategory?.name : nil,
                 handler: { [weak self] in
                     guard let self = self else {
@@ -342,7 +342,7 @@ final class CreateNewHabitViewController : UIViewController {
      //   if isHabit {
             settings.append(
                 SettingsOptions(
-                    name: "Расписание",
+                    name: NSLocalizedString("Schedule", comment: ""),
                     pickedParameter: nil,
                     handler: { [weak self] in
                         guard let self = self else {
@@ -410,7 +410,29 @@ extension CreateNewHabitViewController: CreateNewHabitProtocol {
     
     func setPickedSchedule(_ weekDays: Set<WeekDay>) {
         self.pickedSchedule = weekDays
-        settings[1].pickedParameter = weekDays.sortedByOrder().map({e in e.shortName}).joined(separator: ", ")
+        let scheduleArraySorted = weekDays.sorted(by: {$0.rawValue < $1.rawValue})
+        var scheduleStringArray: [String] = []
+        for day in scheduleArraySorted {
+            switch day {
+            case .monday:
+                scheduleStringArray.append(NSLocalizedString("MondayBrief", comment: ""))
+            case .tuesday:
+                scheduleStringArray.append(NSLocalizedString("TuesdayBrief", comment: ""))
+            case .wednesday:
+                scheduleStringArray.append(NSLocalizedString("WednesdayBrief", comment: ""))
+            case .thursday:
+                scheduleStringArray.append(NSLocalizedString("ThursdayBrief", comment: ""))
+            case .friday:
+                scheduleStringArray.append(NSLocalizedString("FridayBrief", comment: ""))
+            case .saturday:
+                scheduleStringArray.append(NSLocalizedString("SaturdayBrief", comment: ""))
+            case .sunday:
+                scheduleStringArray.append(NSLocalizedString("SundayBrief", comment: ""))
+            }
+        }
+        
+        let scheduleString = scheduleStringArray.joined(separator: ", ")
+        settings[1].pickedParameter = scheduleString
         settingsTable.reloadData()
         checkForActivateCreateButton()
     }

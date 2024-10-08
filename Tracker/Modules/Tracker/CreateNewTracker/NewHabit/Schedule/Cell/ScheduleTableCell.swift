@@ -31,7 +31,7 @@ final class ScheduleTableCell: UITableViewCell {
     
     var day: WeekDay? {
         didSet {
-            dayLabel.text = day?.rawValue
+            dayLabel.text = NSLocalizedString(day!.rawValue.capitalizeFirstLetter(), comment: "")
         }
     }
     

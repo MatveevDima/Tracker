@@ -19,7 +19,7 @@ final class CategoryViewController : UIViewController {
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Категория"
+        headerLabel.text = NSLocalizedString("Category", comment: "")
         headerLabel.font = .systemFont(ofSize: 16, weight: .medium)
         headerLabel.textColor = .black
         return headerLabel
@@ -30,7 +30,7 @@ final class CategoryViewController : UIViewController {
     private lazy var placeholderText: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Привычки и события \n можно объединить по смыслу"
+        label.text = NSLocalizedString("Zero categories placeholder", comment: "")
         label.textAlignment = .center
         label.textColor = UIColor(named: "Black")
         label.font = .systemFont(ofSize: 12, weight: .medium)
@@ -59,7 +59,7 @@ final class CategoryViewController : UIViewController {
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.backgroundColor = .black
         addCategoryButton.setTitleColor(.white, for: .normal)
-        addCategoryButton.setTitle("Добавить категорию", for: .normal)
+        addCategoryButton.setTitle(NSLocalizedString("Add category", comment: ""), for: .normal)
         addCategoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.layer.masksToBounds = true

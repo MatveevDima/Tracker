@@ -98,7 +98,7 @@ extension ColorCollectionView: UICollectionViewDelegateFlowLayout {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ColorCollectionHeaderView.identifier, for: indexPath) as? ColorCollectionHeaderView else {
             fatalError("Invalid view type")
         }
-        header.configure(with: "Цвет")
+        header.configure(with: NSLocalizedString("Colour", comment: ""))
         return header
     }
     

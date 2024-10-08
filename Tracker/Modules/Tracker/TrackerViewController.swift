@@ -100,7 +100,7 @@ final class TrackerViewController : UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        navigationItem.title = "Трекеры"
+        navigationItem.title = NSLocalizedString("Trackers", comment: "")
         navigationItem.searchController = searchController
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         navigationItem.leftBarButtonItem = addButton

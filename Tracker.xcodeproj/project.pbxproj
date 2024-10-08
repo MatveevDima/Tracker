@@ -11,6 +11,9 @@
 		E70C6DA72CA713DC004C8600 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DA62CA713DC004C8600 /* OnboardingViewController.swift */; };
 		E70C6DA92CA71667004C8600 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DA82CA71667004C8600 /* Main.storyboard */; };
 		E70C6DAE2CAC23C6004C8600 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DAD2CAC23C6004C8600 /* CategoryViewModel.swift */; };
+		E70C6DB12CB56CE4004C8600 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DAF2CB56CE4004C8600 /* Localizable.strings */; };
+		E70C6DB72CB57524004C8600 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DB62CB57524004C8600 /* String+Extensions.swift */; };
+		E70C6DBA2CB57B28004C8600 /* number_of_days.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DB82CB57B28004C8600 /* number_of_days.stringsdict */; };
 		E77CDB502C4FEAC0001658D1 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */; };
 		E77CDB532C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */; };
 		E77CDB552C5110E6001658D1 /* CollectionParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB542C5110E6001658D1 /* CollectionParameters.swift */; };
@@ -68,6 +71,12 @@
 		E70C6DA62CA713DC004C8600 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		E70C6DA82CA71667004C8600 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E70C6DAD2CAC23C6004C8600 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		E70C6DB02CB56CE4004C8600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E70C6DB32CB56D3E004C8600 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E70C6DB52CB56D51004C8600 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		E70C6DB62CB57524004C8600 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		E70C6DB92CB57B28004C8600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/number_of_days.stringsdict; sourceTree = "<group>"; };
+		E70C6DBE2CB57C29004C8600 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/number_of_days.stringsdict; sourceTree = "<group>"; };
 		E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
 		E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		E77CDB542C5110E6001658D1 /* CollectionParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionParameters.swift; sourceTree = "<group>"; };
@@ -155,6 +164,7 @@
 			children = (
 				E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */,
 				E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */,
+				E70C6DB82CB57B28004C8600 /* number_of_days.stringsdict */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -353,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				E77CDBA22C591D69001658D1 /* UIColor+Extensions.swift */,
+				E70C6DB62CB57524004C8600 /* String+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -434,6 +445,7 @@
 				E7FE42862C4E90C400FE725A /* LaunchScreen.storyboard */,
 				E7FE42892C4E90C400FE725A /* Info.plist */,
 				E70C6DA82CA71667004C8600 /* Main.storyboard */,
+				E70C6DAF2CB56CE4004C8600 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -533,6 +545,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = E7FE426F2C4E90C300FE725A;
 			productRefGroup = E7FE42792C4E90C300FE725A /* Products */;
@@ -550,6 +563,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E70C6DA92CA71667004C8600 /* Main.storyboard in Resources */,
+				E70C6DB12CB56CE4004C8600 /* Localizable.strings in Resources */,
+				E70C6DBA2CB57B28004C8600 /* number_of_days.stringsdict in Resources */,
 				E7FE42852C4E90C400FE725A /* Assets.xcassets in Resources */,
 				E7FE42882C4E90C400FE725A /* Base in Resources */,
 			);
@@ -602,6 +617,7 @@
 				E70C6DA72CA713DC004C8600 /* OnboardingViewController.swift in Sources */,
 				E77CDB882C56A449001658D1 /* ScheduleViewController.swift in Sources */,
 				E77CDC182C9C2E46001658D1 /* TrackerCoreData+CoreDataProperties.swift in Sources */,
+				E70C6DB72CB57524004C8600 /* String+Extensions.swift in Sources */,
 				E77CDBA32C591D69001658D1 /* UIColor+Extensions.swift in Sources */,
 				E77CDB582C514BC4001658D1 /* CreateNewTrackerViewController.swift in Sources */,
 				E7FE42992C4E9CE700FE725A /* StatisticViewController.swift in Sources */,
@@ -619,10 +635,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		E70C6DAF2CB56CE4004C8600 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E70C6DB02CB56CE4004C8600 /* en */,
+				E70C6DB32CB56D3E004C8600 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		E70C6DB82CB57B28004C8600 /* number_of_days.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E70C6DB92CB57B28004C8600 /* en */,
+				E70C6DBE2CB57C29004C8600 /* ru */,
+			);
+			name = number_of_days.stringsdict;
+			sourceTree = "<group>";
+		};
 		E7FE42862C4E90C400FE725A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E7FE42872C4E90C400FE725A /* Base */,
+				E70C6DB52CB56D51004C8600 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -635,6 +670,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -698,6 +734,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

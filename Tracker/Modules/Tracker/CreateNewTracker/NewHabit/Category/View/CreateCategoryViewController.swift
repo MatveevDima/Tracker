@@ -16,7 +16,7 @@ final class CreateCategoryViewController : UIViewController {
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Новая категория"
+        headerLabel.text = NSLocalizedString("New category", comment: "")
         headerLabel.font = .systemFont(ofSize: 16, weight: .medium)
         headerLabel.textColor = .black
         return headerLabel
@@ -27,7 +27,7 @@ final class CreateCategoryViewController : UIViewController {
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.backgroundColor = .black
         addCategoryButton.setTitleColor(.white, for: .normal)
-        addCategoryButton.setTitle("Готово", for: .normal)
+        addCategoryButton.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
         addCategoryButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.layer.masksToBounds = true
@@ -41,7 +41,7 @@ final class CreateCategoryViewController : UIViewController {
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Введите название категории"
+        textField.placeholder = NSLocalizedString("Input category name", comment: "")
         textField.font = .systemFont(ofSize: 17, weight: .medium)
         textField.textColor = .black
         textField.backgroundColor =  UIColor(named: "light_gray_for_background")

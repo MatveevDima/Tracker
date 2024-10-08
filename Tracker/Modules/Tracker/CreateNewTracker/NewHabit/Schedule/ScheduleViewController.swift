@@ -10,15 +10,12 @@ import UIKit
 final class ScheduleViewController : UIViewController {
     
     weak var delegate: CreateNewHabitProtocol?
-    
-    private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
-    
     var selectedDays: Set<WeekDay> = []
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Расписание"
+        headerLabel.text = NSLocalizedString("Schedule", comment: "")
         headerLabel.font = .systemFont(ofSize: 16, weight: .medium)
         headerLabel.textColor = .black
         return headerLabel
@@ -45,7 +42,7 @@ final class ScheduleViewController : UIViewController {
         completeButton.translatesAutoresizingMaskIntoConstraints = false
         completeButton.backgroundColor = .black
         completeButton.setTitleColor(.white, for: .normal)
-        completeButton.setTitle("Готово", for: .normal)
+        completeButton.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
         completeButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         completeButton.layer.cornerRadius = 16
         completeButton.layer.masksToBounds = true
@@ -117,7 +114,7 @@ final class ScheduleViewController : UIViewController {
 extension ScheduleViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-           return daysOfWeek.count
+        return WeekDay.allCases.count
        }
        
        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

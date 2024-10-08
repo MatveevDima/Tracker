@@ -27,7 +27,7 @@ final class TrackerCollectionViewCell : UICollectionViewCell {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = .systemFont(ofSize: 12, weight: .medium)
         nameLabel.textColor = .white
-        nameLabel.text = "Название трекера"
+        nameLabel.text = NSLocalizedString("Tracker", comment: "")
         nameLabel.numberOfLines = 2
         return nameLabel
     }()
@@ -132,7 +132,10 @@ final class TrackerCollectionViewCell : UICollectionViewCell {
     
     func configureCounterLabel(days: Int) {
         self.counter = days
-        counterLabel.text = "\(days) Дней"
+        let key = "number_of_days"
+        let localizationFormat = NSLocalizedString(key, tableName: key, comment: "Days counter label")
+        let string = String(format: localizationFormat, days)
+        counterLabel.text = string
     }
     
     // MARK: Setup View
