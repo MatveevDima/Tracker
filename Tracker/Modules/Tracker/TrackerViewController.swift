@@ -10,6 +10,8 @@ import UIKit
 final class TrackerViewController : UIViewController {
     
     private var trackerCategoryStore = TrackerCategoryStore.shared
+    private let trackerStore = TrackerStore.shared
+    private var filteredData: [TrackerCategory] = []
     
     private let widthParameters = CollectionParameters(
         cellsNumber: 2,
@@ -111,6 +113,8 @@ final class TrackerViewController : UIViewController {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru")
         
+        searchController.searchResultsUpdater = self
+        
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 120),
         ])
@@ -179,11 +183,11 @@ final class TrackerViewController : UIViewController {
 extension TrackerViewController : UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return categories.count
+        return filteredData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories[section].trackers.count
+        return filteredData[section].trackers.count
     }
     
     
@@ -191,7 +195,7 @@ extension TrackerViewController : UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TrackerCollectionViewCell
         
-        let tracker = categories[indexPath.section].trackers[indexPath.row]
+        let tracker = filteredData[indexPath.section].trackers[indexPath.row]
         cell.configure(with: tracker)
         return cell
     }
@@ -202,7 +206,7 @@ extension TrackerViewController : UICollectionViewDataSource {
         else {
             preconditionFailure("Failed to cast UICollectionReusableView as TrackerCollectionViewHeader")
         }
-        let category = categories[indexPath.section]
+        let category = filteredData[indexPath.section]
         trackerHeader.configure(model: category)
         return trackerHeader
     }
@@ -213,6 +217,51 @@ extension TrackerViewController : UICollectionViewDelegate {
     
     
 }
+
+// MARK: UISearchResultsUpdating
+extension TrackerViewController : UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        categories = trackerCategoryStore.getCategories()
+        
+        if let text = searchController.searchBar.text {
+            if text.count > 0 {
+                var searchedCategories: Array<TrackerCategory> = []
+                for category in categories {
+                    var searchedTrackers: Array<Tracker> = []
+                    
+                    for tracker in category.trackers {
+                        if tracker.name.localizedCaseInsensitiveContains(text)
+                         //   && isTrackerScheduledOnSelectedDate(tracker)
+                        {
+                            searchedTrackers.append(tracker)
+                        }
+                    }
+                    if !searchedTrackers.isEmpty {
+                        searchedCategories.append(TrackerCategory(id: UUID(), name: category.name, trackers: searchedTrackers))
+                    }
+                }
+                filteredData = searchedCategories
+                
+            } else {
+                filteredData = getAndFilterTrackersBySelectedDate()
+            }
+        } else {
+            filteredData = getAndFilterTrackersBySelectedDate()
+        }
+        collectionView.reloadData()
+    }
+    
+    private func getAndFilterTrackersBySelectedDate() -> [TrackerCategory] {
+
+        self.categories = trackerCategoryStore.getCategories()
+
+        return categories.filter {e in !e.trackers.isEmpty}
+    }
+}
+
+
 // MARK: UICollectionViewDelegateFlowLayout
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
@@ -257,6 +306,7 @@ extension TrackerViewController : TrackerViewControllerProtocol {
     
     private func fetchCategories() {
         categories = trackerCategoryStore.getCategories().filter {e in !e.trackers.isEmpty}
+        filteredData = categories
         collectionView.reloadData()
     }
 }
