@@ -58,6 +58,10 @@ final class EmojiCollectionView: UIView {
             collectionView.heightAnchor.constraint(equalToConstant: 240)
         ])
     }
+    
+    func selectByEmoji(_ emoji: String) {
+        selectedEmoji = emoji
+    }
 }
 
 extension EmojiCollectionView: UICollectionViewDataSource {
@@ -67,7 +71,11 @@ extension EmojiCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as! EmojiCollectionViewCell
-        cell.configure(with: emojis[indexPath.item])
+        let emoji = emojis[indexPath.item]
+        cell.configure(with: emoji)
+        if(selectedEmoji == emoji) {
+            cell.setSelected(true)
+        }
         return cell
     }
 }
@@ -75,6 +83,14 @@ extension EmojiCollectionView: UICollectionViewDataSource {
 extension EmojiCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if (selectedEmojiIndex == nil && selectedEmoji != nil) {
+            for cell in collectionView.visibleCells {
+                if let myCell = cell as? EmojiCollectionViewCell {
+                    myCell.setSelected(false)
+                }
+            }
+        }
         
         if let previousIndex = selectedEmojiIndex {
             let previousCell = collectionView.cellForItem(at: previousIndex) as? EmojiCollectionViewCell

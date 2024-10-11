@@ -11,6 +11,7 @@ final class CreateNewHabitViewController : UIViewController {
     
     weak var delegate: CreateNewTrackerProtocol? 
     private let trackerStore = TrackerStore.shared
+    private let trackerCategoryStore = TrackerCategoryStore.shared
     
     private var pickedCategory: TrackerCategory?
     private var pickedSchedule: Set<WeekDay> = []
@@ -18,6 +19,10 @@ final class CreateNewHabitViewController : UIViewController {
     private var pickedColor: UIColor?
     
     private var settings: [SettingsOptions] = []
+    
+    var isHabit: Bool = true
+    var isEdit: Bool = false
+    var tracker: TrackerCoreData?
     
     private lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -154,6 +159,7 @@ final class CreateNewHabitViewController : UIViewController {
         super.viewDidLoad()
         appendSettingsToList()
         setupView()
+        checkForEditing()
     }
     
     // MARK: - Actions
@@ -161,10 +167,10 @@ final class CreateNewHabitViewController : UIViewController {
         
         if ((textField.text ?? "").count > 38) {
             textFieldErrorMessageContainer.isHidden = false
-
+            
         } else {
             textFieldErrorMessageContainer.isHidden = true
-      
+            
         }
         checkForActivateCreateButton()
     }
@@ -339,7 +345,7 @@ final class CreateNewHabitViewController : UIViewController {
                     self.setCategory()
                 }
             ))
-     //   if isHabit {
+        if isHabit {
             settings.append(
                 SettingsOptions(
                     name: NSLocalizedString("Schedule", comment: ""),
@@ -351,11 +357,34 @@ final class CreateNewHabitViewController : UIViewController {
                         self.setSchedule()
                     }
                 ))
-//            if isEdit {
-//                didConfigure(schedule: (tracker?.schedule!.schedule)!)
-//            }
-   //     }
+        }
         
+    }
+    
+    private func checkForEditing() {
+        if isEdit {
+            
+            guard let tracker = tracker,
+                  let trackerName = tracker.name,
+                 // let schedule = tracker.schedule,
+                  let category = tracker.category,
+                  let emoji = tracker.emoji,
+                  let color = tracker.colour,
+                  let uiColor = UIColor(named: color)
+            else {return}
+            
+            textField.text = trackerName
+            
+            setPickedCategoy(trackerCategoryStore.transformCoreDatacategory(category))
+            //    setPickedSchedule(tracker!.schedule!.schedule)
+            
+            
+            setPickedEmoji(emoji)
+            emojiCollectionView.selectByEmoji(emoji)
+            
+            setPickedColor(uiColor)
+            colorCollectionView.selectByColor(uiColor)
+        }
     }
     
     private func setCategory() {
@@ -373,7 +402,7 @@ final class CreateNewHabitViewController : UIViewController {
     }
 }
 
-    // MARK: UITableViewDataSource
+// MARK: UITableViewDataSource
 extension CreateNewHabitViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settings.count
@@ -390,9 +419,9 @@ extension CreateNewHabitViewController: UITableViewDataSource {
     }
 }
 
-    // MARK: UITableViewDelegate
+// MARK: UITableViewDelegate
 extension CreateNewHabitViewController: UITableViewDelegate {
-  
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -400,12 +429,12 @@ extension CreateNewHabitViewController: UITableViewDelegate {
     }
 }
 
-    // MARK: CreateNewTrackerDelegate
+// MARK: CreateNewTrackerDelegate
 extension CreateNewHabitViewController: CreateNewTrackerDelegate {
-  
+    
     
 }
-    // MARK: CreateNewHabitProtocol
+// MARK: CreateNewHabitProtocol
 extension CreateNewHabitViewController: CreateNewHabitProtocol {
     
     func setPickedSchedule(_ weekDays: Set<WeekDay>) {

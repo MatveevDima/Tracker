@@ -9,12 +9,17 @@ import UIKit
 
 final class TrackerCollectionViewCell : UICollectionViewCell {
     
+    weak var delegate: TrackerCollectionViewCellDelegate?
+    
     private var trackerId: UUID?
     private var isCompleted: Bool?
+    private var isPinned: Bool = false
     private var counter: Int?
     
     private lazy var backgroundRect: UIView = {
         let view = UIView()
+        let interaction = UIContextMenuInteraction(delegate: self)
+        view.addInteraction(interaction)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
@@ -206,5 +211,37 @@ final class TrackerCollectionViewCell : UICollectionViewCell {
             buttonImage.centerXAnchor.constraint(equalTo: completeButton.centerXAnchor),
             buttonImage.centerYAnchor.constraint(equalTo: completeButton.centerYAnchor),
         ])
+    }
+}
+
+extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil,
+                                          actionProvider: {
+            suggestedActions in
+            
+            
+            let pinAction = UIAction(title: self.isPinned ? NSLocalizedString("Unpin", comment: "") : NSLocalizedString("Pin", comment: "")) { action in
+                
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.pinTracker(withId: trackerId)
+                
+            }
+            
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { action in
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.editTracker(withId: trackerId)
+            }
+            
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { action in
+                
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.deleteTracker(withId: trackerId)
+            }
+            
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        })
     }
 }

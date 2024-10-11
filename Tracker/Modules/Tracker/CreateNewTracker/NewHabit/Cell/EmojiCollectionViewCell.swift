@@ -11,7 +11,7 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "EmojiCollectionViewCell"
     
-    private lazy var emojiLabel: UILabel = {
+    public lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 32)

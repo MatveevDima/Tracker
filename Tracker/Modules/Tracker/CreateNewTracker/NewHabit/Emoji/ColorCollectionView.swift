@@ -59,6 +59,10 @@ final class ColorCollectionView: UIView {
             collectionView.heightAnchor.constraint(equalToConstant: 240)
         ])
     }
+    
+    func selectByColor(_ color:UIColor) {
+        self.selectedColor = color
+    }
 }
 
 extension ColorCollectionView: UICollectionViewDataSource {
@@ -68,7 +72,11 @@ extension ColorCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.identifier, for: indexPath) as! ColorCollectionViewCell
-        cell.configure(with: colors[indexPath.item])
+        let color = colors[indexPath.item]
+        cell.configure(with: color)
+        if(selectedColor == color) {
+            cell.setSelected(true)
+        }
         return cell
     }
 }
@@ -76,6 +84,15 @@ extension ColorCollectionView: UICollectionViewDataSource {
 extension ColorCollectionView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if (selectedColorIndex == nil && selectedColor != nil) {
+            for cell in collectionView.visibleCells {
+                if let myCell = cell as? ColorCollectionViewCell {
+                    myCell.setSelected(false)
+                }
+            }
+        }
+        
         
         if let previousIndex = selectedColorIndex {
             let previousCell = collectionView.cellForItem(at: previousIndex) as? ColorCollectionViewCell

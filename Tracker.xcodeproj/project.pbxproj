@@ -14,6 +14,7 @@
 		E70C6DB12CB56CE4004C8600 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DAF2CB56CE4004C8600 /* Localizable.strings */; };
 		E70C6DB72CB57524004C8600 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DB62CB57524004C8600 /* String+Extensions.swift */; };
 		E70C6DBA2CB57B28004C8600 /* number_of_days.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = E70C6DB82CB57B28004C8600 /* number_of_days.stringsdict */; };
+		E70C6DC02CB7ECFB004C8600 /* TrackerCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70C6DBF2CB7ECFB004C8600 /* TrackerCollectionViewCellDelegate.swift */; };
 		E77CDB502C4FEAC0001658D1 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */; };
 		E77CDB532C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */; };
 		E77CDB552C5110E6001658D1 /* CollectionParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77CDB542C5110E6001658D1 /* CollectionParameters.swift */; };
@@ -77,6 +78,7 @@
 		E70C6DB62CB57524004C8600 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		E70C6DB92CB57B28004C8600 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/number_of_days.stringsdict; sourceTree = "<group>"; };
 		E70C6DBE2CB57C29004C8600 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/number_of_days.stringsdict; sourceTree = "<group>"; };
+		E70C6DBF2CB7ECFB004C8600 /* TrackerCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		E77CDB4F2C4FEAC0001658D1 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
 		E77CDB522C4FF8B8001658D1 /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		E77CDB542C5110E6001658D1 /* CollectionParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionParameters.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				E77CDB5D2C5155C4001658D1 /* TrackerViewControllerDelegate.swift */,
+				E70C6DBF2CB7ECFB004C8600 /* TrackerCollectionViewCellDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				E77CDC1C2C9C45EB001658D1 /* TrackerRecordCoreData+CoreDataProperties.swift in Sources */,
 				E77CDC0B2C9AD030001658D1 /* TrackerStore.swift in Sources */,
 				E77CDB642C523D6F001658D1 /* TrackerViewControllerProtocol.swift in Sources */,
+				E70C6DC02CB7ECFB004C8600 /* TrackerCollectionViewCellDelegate.swift in Sources */,
 				E7FE42922C4E96B900FE725A /* TabBarController.swift in Sources */,
 				E7FE42942C4E976000FE725A /* TrackerViewController.swift in Sources */,
 				E77CDB8E2C56ACD1001658D1 /* WeekDay.swift in Sources */,

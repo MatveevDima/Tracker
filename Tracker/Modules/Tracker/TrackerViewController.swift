@@ -197,6 +197,7 @@ extension TrackerViewController : UICollectionViewDataSource {
         
         let tracker = filteredData[indexPath.section].trackers[indexPath.row]
         cell.configure(with: tracker)
+        cell.delegate = self
         return cell
     }
     
@@ -308,5 +309,81 @@ extension TrackerViewController : TrackerViewControllerProtocol {
         categories = trackerCategoryStore.getCategories().filter {e in !e.trackers.isEmpty}
         filteredData = categories
         collectionView.reloadData()
+    }
+}
+
+// MARK: - TrackerCollectionViewCellDelegate
+
+extension TrackerViewController: TrackerCollectionViewCellDelegate {
+    
+    func markComplete(with id: UUID) {
+//
+//        guard selectedDate <= Date() else {
+//            return
+//        }
+//        guard let date = selectedDate.omitTime() else { return }
+//        trackerRecordStore.saveTrackerRecordCoreData(TrackerRecord(trackerId: id, date: date))
+//        completedRecords = trackerRecordStore.getCompletedTrackers()
+//        updateCollectionView()
+    }
+
+    func undoMarkComplete(with id: UUID) {
+        
+//        guard selectedDate <= Date() else {
+//            return
+//        }
+//        guard let date = selectedDate.omitTime() else { return }
+//        if completedRecords.contains(where: { $0.trackerId == id && Calendar.current.isDate($0.date, equalTo: date, toGranularity: .day)}) {
+//            trackerRecordStore.deleteTrackerRecord(with: id, on: date)
+//        }
+//        completedRecords = trackerRecordStore.getCompletedTrackers()
+//        updateCollectionView()
+    }
+    
+    func pinTracker(withId id: UUID) {
+        
+//        trackerStore.pinTracker(withId: id)
+//        self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
+//        filteredData = getAndFilterTrackersBySelectedDate()
+//        updateCollectionView()
+    }
+
+    func deleteTracker(withId id: UUID) {
+        
+        let actionSheet: UIAlertController = {
+            let alert = UIAlertController()
+            alert.title = NSLocalizedString("Delete tracker confirmation", comment: "")
+            return alert
+        }()
+        let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
+            
+            self.trackerStore.deleteTracker(withId: id)
+            //self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
+            self.filteredData = self.getAndFilterTrackersBySelectedDate()
+            self.collectionView.reloadData()
+        }
+        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {_ in}
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        present(actionSheet, animated: true)
+    }
+
+    func editTracker(withId id: UUID) {
+        
+        let trackerCoreData = trackerStore.fetchTrackerWithId(id)
+        let tracker = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
+        
+        let viewController = CreateNewHabitViewController()
+        
+        if tracker.schedule?.count == 7 {
+            viewController.isHabit = false
+        } else {
+            viewController.isHabit = true
+        }
+
+        viewController.isEdit = true
+        viewController.tracker = trackerCoreData
+
+        present(viewController, animated: true)
     }
 }
