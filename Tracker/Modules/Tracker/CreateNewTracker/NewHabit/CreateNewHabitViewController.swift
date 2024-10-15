@@ -234,7 +234,9 @@ final class CreateNewHabitViewController : UIViewController {
     }
     
     func setupHeaderLabel() {
-        
+        if isEdit {
+            headerLabel.text = NSLocalizedString("Edit tracker", comment: "")
+        }
         view.addSubview(headerLabel)
         
         NSLayoutConstraint.activate([
@@ -313,6 +315,9 @@ final class CreateNewHabitViewController : UIViewController {
     
     func setupButtons() {
         
+        if isEdit {
+            createButton.setTitle(NSLocalizedString("Save", comment: ""), for: .normal)
+        }
         stackForButtons.addArrangedSubview(cancelButton)
         stackForButtons.addArrangedSubview(createButton)
         
@@ -366,7 +371,7 @@ final class CreateNewHabitViewController : UIViewController {
             
             guard let tracker = tracker,
                   let trackerName = tracker.name,
-                 // let schedule = tracker.schedule,
+                  let daysValue = tracker.schedule,
                   let category = tracker.category,
                   let emoji = tracker.emoji,
                   let color = tracker.colour,
@@ -376,7 +381,7 @@ final class CreateNewHabitViewController : UIViewController {
             textField.text = trackerName
             
             setPickedCategoy(trackerCategoryStore.transformCoreDatacategory(category))
-            //    setPickedSchedule(tracker!.schedule!.schedule)
+            setPickedSchedule(daysValue.schedule)
             
             
             setPickedEmoji(emoji)
